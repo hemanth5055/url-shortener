@@ -5,7 +5,7 @@ import { IoCopyOutline } from "react-icons/io5";
 export default function Item({ mainUrl, shortUrl, visits }) {
   const handlecopy = () => {
     navigator.clipboard.writeText(
-      `${import.meta.env.VITE_FRONTEND_LINK}shortUrl`
+      `${import.meta.env.VITE_FRONTEND_LINK}${shortUrl}`
     );
   };
   return (
