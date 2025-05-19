@@ -15,7 +15,7 @@ export default function Item({ mainUrl, shortUrl, visits }) {
         <span className="bg-violet-200 p-1 break-words">{shortUrl}</span>
       </h3>
       <h3 className="text-black font-mont break-words">Main Url : {mainUrl}</h3>
-      <h3 className="text-black font-mont">Visits : {visits / 2}</h3>
+      <h3 className="text-black font-mont">Visits : {visits}</h3>
       <div className="flex gap-2 justify-end">
         <div className="h-[30px] w-[30px] bg-gray-100 rounded-full cursor-pointer flex justify-center items-center">
           <AiOutlineDelete size={17} />
