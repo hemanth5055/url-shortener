@@ -13,8 +13,39 @@ export default function Helper({ name, user, urls, setUrls }) {
     localStorage.removeItem("token");
     navigate("/login");
   };
+  const handleDelete = async (id) => {
+    if (!id || id.length === 0) {
+      console.log("Invalid ID: Failed to delete URL");
+      return;
+    }
+
+    try {
+      const result = await axios.post(
+        `${import.meta.env.VITE_SERVER}/url/delete`,
+        { _id: id },
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (result?.data?.code === 1) {
+        // Remove the deleted URL from state
+        setUrls((prevUrls) => prevUrls.filter((url) => url._id !== id));
+      } else {
+        console.log("Failed to delete URL:", result?.data?.msg);
+      }
+    } catch (error) {
+      console.error(
+        "Error deleting URL:",
+        error.response?.data?.msg || error.message
+      );
+    }
+  };
+
   const handleGenerate = async () => {
-    const urlPattern = /^https:\/\/www\.[a-zA-Z0-9-]+\.(com|in)$/;
+    const urlPattern =
+      /^https:\/\/([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;
 
     if (urlPattern.test(url)) {
       setLoading(true);
@@ -40,9 +71,7 @@ export default function Helper({ name, user, urls, setUrls }) {
         setLoading(false);
       }
     } else {
-      console.log(
-        "Enter a valid URL in the format https://www.----.com or https://www.----.in"
-      );
+      console.log("Enter a valid URL");
     }
   };
 
@@ -96,6 +125,8 @@ export default function Helper({ name, user, urls, setUrls }) {
                   mainUrl={item.mainUrl}
                   shortUrl={item.shortedUrl}
                   visits={item.visits}
+                  id={item._id}
+                  deleteFn={handleDelete}
                 ></Item>
               );
             })}

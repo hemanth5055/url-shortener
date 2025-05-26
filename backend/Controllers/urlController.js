@@ -28,5 +28,17 @@ async function redirectUrl(req, res) {
   return res.json({ redirectto: urlToredirect });
   // return res.redirect(urlToredirect);
 }
+async function deleteUrl(req, res) {
+  const data = req.body;
+  try {
+    const result = await Url.deleteOne({ _id: data._id });
+    if (result) {
+      return res.json({ code:1,msg: "Deleted URL Successfully" });
+    }
+    return res.json({ code:0,msg: "Something went wrong" });
+  } catch (error) {
+    return res.json({code:0, msg:error.message });
+  }
+}
 
-module.exports = { createShortUrl, redirectUrl };
+module.exports = { createShortUrl, redirectUrl,deleteUrl };

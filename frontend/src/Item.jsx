@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { IoCopyOutline } from "react-icons/io5";
 
-export default function Item({ mainUrl, shortUrl, visits }) {
+export default function Item({ mainUrl, shortUrl, visits, deleteFn, id }) {
   const handlecopy = () => {
     navigator.clipboard.writeText(
       `${import.meta.env.VITE_FRONTEND_LINK}${shortUrl}`
@@ -17,7 +17,10 @@ export default function Item({ mainUrl, shortUrl, visits }) {
       <h3 className="text-black font-mont break-words">Main Url : {mainUrl}</h3>
       <h3 className="text-black font-mont">Visits : {visits}</h3>
       <div className="flex gap-2 justify-end">
-        <div className="h-[30px] w-[30px] bg-gray-100 rounded-full cursor-pointer flex justify-center items-center">
+        <div
+          className="h-[30px] w-[30px] bg-gray-100 rounded-full cursor-pointer flex justify-center items-center"
+          onClick={() => deleteFn(id)}
+        >
           <AiOutlineDelete size={17} />
         </div>
         <div
